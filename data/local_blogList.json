@@ -22,5 +22,9 @@
     {
         "name": "[date]_[title]_[category]_[thumnail]_[description]_[author].md",
         "download_url": "/blog/[date]_[title]_[category]_[thumnail]_[description]_[author].md"
-    }
+    },
+    {
+        "name": "[20251012]_[테스트]_[django]_[]_[이 파일은 테스트 파일입니다.]_[].md",
+        "download_url": "/blog/[20251012]_[테스트]_[django]_[]_[이 파일은 테스트 파일입니다.]_[].md"
+    }  
 ]
