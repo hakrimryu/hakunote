@@ -47,6 +47,7 @@
   mask-repeat: no-repeat;
   mask-position: center center;
 }
+
 #menu-button:hover,
 #menu-button.active {
   background-color: var(--nav-icon-active);
@@ -66,6 +67,7 @@
   mask-repeat: no-repeat;
   mask-position: center center;
 }
+
 #search-button:hover,
 #search-button.active {
   background-color: var(--nav-icon-active);
@@ -87,6 +89,7 @@
   mask-position: center center;
   transition: background-color 0.2s ease;
 }
+
 .search-inp-btn:hover,
 .search-inp-btn.active {
   background-color: var(--search-btn-hover);
@@ -102,6 +105,7 @@
   border-radius: 50%;
   transition: background-color 0.2s ease;
 }
+
 .reset-inp-btn::after {
   content: "";
   width: 100%;
@@ -116,6 +120,7 @@
   mask-repeat: no-repeat;
   mask-position: center center;
 }
+
 .reset-inp-btn:hover,
 .reset-inp-btn.active {
   background-color: var(--reset-btn-hover);
@@ -129,6 +134,7 @@
   justify-content: center;
   transition: background-color 0.2s ease;
 }
+
 #copy-button::after {
   content: "";
   width: 100%;
@@ -144,6 +150,7 @@
   mask-position: center center;
   transition: background-color 0.2s ease;
 }
+
 #copy-button:hover::after,
 #copy-button.active::after {
   background-color: var(--copy-btn-active);
@@ -157,10 +164,12 @@
   align-items: center;
   justify-content: center;
 }
+
 #aside-button:active,
 #aside-button:focus {
   outline: none;
 }
+
 #aside-button::after {
   content: "";
   width: 24px;
@@ -193,6 +202,7 @@
 #page-prev {
   display: flex;
 }
+
 #page-prev::after {
   content: "";
   width: 20px;
@@ -208,9 +218,11 @@
   mask-position: center center;
   transition: background-color 0.2s ease;
 }
+
 #page-prev:hover::after {
   background-color: var(--pager-icon-hover);
 }
+
 #page-prev:disabled::after {
   background-color: var(--pager-icon-disabled);
 }
@@ -218,6 +230,7 @@
 #page-next {
   display: flex;
 }
+
 #page-next::after {
   content: "";
   width: 20px;
@@ -233,9 +246,13 @@
   mask-position: center center;
   transition: background-color 0.2s ease;
 }
+
 #page-next:hover::after {
   background-color: var(--pager-icon-hover);
 }
+
 #page-next:disabled::after {
   background-color: var(--pager-icon-disabled);
-}*** End Patch
+}
+
+*** End Patch

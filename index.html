@@ -1,234 +1,198 @@
 <!DOCTYPE html>
 <html lang="ko" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
-    <title>HAKU_NOTE - Dev Log</title>
 
-    <!-- marked -->
-    <script src="./library/marked.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
+  <title>HAKU_NOTE - Dev Log</title>
 
-    <!-- hightlight.js -->
-    <link rel="stylesheet" href="./library/highlight_default.min.css" />
-    <script src="./library/highlight_highlight.min.js"></script>
-    <link rel="stylesheet" href="./library/highlight_ally-light.min.css" />
+  <!-- marked -->
+  <script src="./library/marked.min.js"></script>
 
-    <!-- custom css -->
-    <link rel="stylesheet" href="style/style.css" />
+  <!-- hightlight.js -->
+  <link rel="stylesheet" href="./library/highlight_default.min.css" />
+  <script src="./library/highlight_highlight.min.js"></script>
+  <link rel="stylesheet" href="./library/highlight_ally-light.min.css" />
 
-    <!-- tailwind -->
-    <script src="./library/tailwind-3.4.1.js"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: "#2e6ff2",
-              background: "#f8fafc",
-              surface: "#0f172a",
-              graylv1: "#f3f5fa",
-              graylv2: "#d9dbe0",
-              graylv3: "#8d9299",
-              graylv4: "#47494d",
-              error: "#ff3440",
-              lowError: "#ffc533",
-              activation: "#dee8ff",
-            },
-            boxShadow: {
-              neon: "0 0 40px rgba(46, 111, 242, 0.35)",
-            },
+  <!-- custom css -->
+  <link rel="stylesheet" href="style/style.css" />
+
+  <!-- tailwind -->
+  <script src="./library/tailwind-3.4.1.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#2e6ff2",
+            background: "#f8fafc",
+            surface: "#0f172a",
+            graylv1: "#f3f5fa",
+            graylv2: "#d9dbe0",
+            graylv3: "#8d9299",
+            graylv4: "#47494d",
+            error: "#ff3440",
+            lowError: "#ffc533",
+            activation: "#dee8ff",
+          },
+          boxShadow: {
+            neon: "0 0 40px rgba(46, 111, 242, 0.35)",
           },
         },
-      };
-    </script>
-    <!-- // tailwind -->
+      },
+    };
+  </script>
+  <!-- // tailwind -->
 
-    <style>
-      @keyframes slideDown {
-        from {
-          transition: all 1s;
-          height: 0px;
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-          height: 60px;
-        }
+  <style>
+    @keyframes slideDown {
+      from {
+        transition: all 1s;
+        height: 0px;
+        opacity: 0;
       }
-      .markdown-cell > ul > li > p {
-        display: inline-block;
-      }
-    </style>
-  </head>
-  <body
-    class="font-sans w-full min-h-screen bg-slate-50 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-200"
-  >
-    <header
-      class="relative bg-white/80 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-lg"
-    >
-      <nav
-        class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center gap-4 relative"
-      >
-        <!-- 블로�??�목 ?�역 -->
-        <h1
-          id="blog-title"
-          class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-slate-900 dark:text-white tracking-[0.2em] uppercase cursor-pointer"
-        >
-          HAKU_NOTE
-        </h1>
-        <!-- // 블로�??�목 ?�역 -->
 
-        <!-- 메뉴 ?�역 -->
-        <div class="md:hidden w-6 h-6">
-          <button id="menu-button">
-            <span class="sr-only">Open menu</span>
+      to {
+        opacity: 1;
+        height: 60px;
+      }
+    }
+
+    .markdown-cell>ul>li>p {
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body
+  class="font-sans w-full min-h-screen bg-slate-50 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-200">
+  <header
+    class="relative z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-lg">
+    <nav class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center gap-4 relative">
+      <!-- 블로그 제목 영역 -->
+      <h1 id="blog-title"
+        class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-slate-900 dark:text-white tracking-[0.2em] uppercase cursor-pointer">
+        HAKU_NOTE
+      </h1>
+      <!-- // 블로그 제목 영역 -->
+
+      <!-- 메뉴 영역 -->
+      <div class="md:hidden w-6 h-6">
+        <button id="menu-button">
+          <span class="sr-only">Open menu</span>
+        </button>
+      </div>
+
+      <div id="menu" class="hidden md:flex items-center">
+        <!-- 메뉴 아이템들 -->
+      </div>
+
+      <button id="search-button" class="ml-4 md:hidden flex relative z-50">
+        <span class="sr-only">Open search</span>
+      </button>
+
+      <button id="theme-toggle"
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 text-slate-700 dark:text-cyan-200 hover:border-primary hover:text-primary dark:hover:border-cyan-400 dark:hover:text-cyan-300 transition-colors duration-200"
+        type="button" aria-label="Toggle theme">
+        <span class="sr-only">Toggle theme</span>
+        <svg id="theme-toggle-icon" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          fill="currentColor">
+          <path d="M12 18a6 6 0 1 0 0-12v12Z" />
+          <path
+            d="M12 4a1 1 0 0 0 0-2v2Zm0 18v-2a1 1 0 0 0 0 2Zm8-9h2a1 1 0 0 0-2 0Zm-8 8a1 1 0 0 0 0 2v-2Zm-8-8H2a1 1 0 0 0 2 0Zm13.66 6.66 1.42 1.42a1 1 0 0 0-1.42-1.42ZM6.34 7.34 4.92 5.92a1 1 0 1 0 1.42 1.42ZM18 12a6 6 0 0 1-6 6v2a8 8 0 0 0 0-16v2a6 6 0 0 1 6 6Zm-6-6V4a1 1 0 0 0 0 2Zm6.24-2.76 1.42-1.42a1 1 0 0 0-1.42 1.42ZM5.1 18.9l1.42-1.42A1 1 0 1 0 5.1 18.9Z" />
+        </svg>
+      </button>
+
+      <div
+        class="search-cont w-80 hidden md:block md:relative absolute z-50 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bottom-[-12px] right-2 xl:right-0 translate-y-full bg-white/90 dark:bg-slate-950/90 w-96 max-w-full box-border md:p-0 md:top-0 md:right-0 md:border-0 md:translate-y-0 md:w-80 md:ml-6 md:bg-transparent md:dark:bg-transparent">
+        <label for="search-input" class="block relative w-full">
+          <input type="text" id="search-input"
+            class="search-input bg-white/95 dark:bg-slate-900/90 rounded-[12px] px-4 py-2.5 placeholder:font-normal placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none shadow-[0_0_18px_rgba(15,23,42,0.08)] dark:shadow-[0_0_25px_rgba(46,111,242,0.28)] w-full pr-24 transition-colors duration-200"
+            placeholder="Keyword" />
+          <span aria-hidden="true"
+            class="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 text-slate-400 dark:text-cyan-300">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4.5 5.25h9m-9 4.5H12M4.5 14.25h5.25m5.25 0 3 3m0 0 3-3m-3 3v-6" />
+            </svg>
+          </span>
+        </label>
+        <div class="btn-cont flex gap-2 justify-center items-center absolute top-1/2 right-6 -translate-y-1/2">
+          <button class="reset-inp-btn hidden">
+            <span class="sr-only">Reset keyword</span>
+          </button>
+          <button class="search-inp-btn">
+            <span class="sr-only">Run search</span>
           </button>
         </div>
+      </div>
+      <!-- // 메뉴 영역 -->
+    </nav>
+    <!-- 모바일에서 메뉴 영역이 보이도록 하는 영역 -->
+    <div id="mobileMenu"
+      class="absolute bg-white/95 dark:bg-slate-950/95 w-full max-w-[1190px] border-b border-slate-200 dark:border-slate-800 z-50 md:hidden backdrop-blur shadow-lg">
+    </div>
+    <!-- // 모바일에서 메뉴 영역이 보이도록 하는 영역 -->
+  </header>
 
-        <div id="menu" class="hidden md:flex items-center">
-          <!-- 메뉴 ?�이?�들 -->
-        </div>
+  <main class="container p-8 pb-4 w-full mx-auto max-w-[1190px] md:pt-[60px]">
+    <!-- 블로그 리스트 영역 -->
+    <div id="blog-posts" class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20"></div>
+    <!-- // 블로그 리스트 영역-->
 
-        <button id="search-button" class="ml-4 md:hidden flex">
-          <span class="sr-only">Open search</span>
-        </button>
+    <!-- contents 영역 -->
+    <div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto"></div>
+    <!-- // contents 영역-->
 
-        <button
-          id="theme-toggle"
-          class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 text-slate-700 dark:text-cyan-200 hover:border-primary hover:text-primary dark:hover:border-cyan-400 dark:hover:text-cyan-300 transition-colors duration-200"
-          type="button"
-          aria-label="Toggle theme"
-        >
-          <span class="sr-only">Toggle theme</span>
-          <svg
-            id="theme-toggle-icon"
-            class="w-5 h-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path d="M12 18a6 6 0 1 0 0-12v12Z" />
-            <path
-              d="M12 4a1 1 0 0 0 0-2v2Zm0 18v-2a1 1 0 0 0 0 2Zm8-9h2a1 1 0 0 0-2 0Zm-8 8a1 1 0 0 0 0 2v-2Zm-8-8H2a1 1 0 0 0 2 0Zm13.66 6.66 1.42 1.42a1 1 0 0 0-1.42-1.42ZM6.34 7.34 4.92 5.92a1 1 0 1 0 1.42 1.42ZM18 12a6 6 0 0 1-6 6v2a8 8 0 0 0 0-16v2a6 6 0 0 1 6 6Zm-6-6V4a1 1 0 0 0 0 2Zm6.24-2.76 1.42-1.42a1 1 0 0 0-1.42 1.42ZM5.1 18.9l1.42-1.42A1 1 0 1 0 5.1 18.9Z"
-            />
-          </svg>
-        </button>
+    <!-- pagination -->
+    <div id="pagination"></div>
+  </main>
 
-        <div
-          class="search-cont w-80 hidden md:block md:relative absolute z-10 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bottom-[-12px] right-2 xl:right-0 translate-y-full bg-white/90 dark:bg-slate-950/90 w-96 max-w-full box-border md:p-0 md:top-0 md:right-0 md:border-0 md:translate-y-0 md:w-80 md:ml-6 md:bg-transparent md:dark:bg-transparent"
-        >
-          <label for="search-input" class="block relative w-full">
-            <input
-              type="text"
-              id="search-input"
-              class="search-input bg-white/95 dark:bg-slate-900/90 rounded-[12px] px-4 py-2.5 placeholder:font-normal placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none shadow-[0_0_18px_rgba(15,23,42,0.08)] dark:shadow-[0_0_25px_rgba(46,111,242,0.28)] w-full pr-24 transition-colors duration-200"
-              placeholder="Keyword"
-            />
-            <span
-              aria-hidden="true"
-              class="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 text-slate-400 dark:text-cyan-300"
-            >
-              <svg
-                class="w-5 h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 5.25h9m-9 4.5H12M4.5 14.25h5.25m5.25 0 3 3m0 0 3-3m-3 3v-6"
-                />
-              </svg>
-            </span>
-          </label>
-          <div
-            class="btn-cont flex gap-2 justify-center items-center absolute top-1/2 right-6 -translate-y-1/2"
-          >
-            <button class="reset-inp-btn hidden">
-            <span class="sr-only">Reset keyword</span>
-            </button>
-            <button class="search-inp-btn">
-            <span class="sr-only">Run search</span>
-            </button>
-          </div>
-        </div>
-        <!-- // 메뉴 ?�역 -->
-      </nav>
-      <!-- 모바?�에??메뉴 ?�역??보이?�록 ?�는 ?�역 -->
-      <div
-        id="mobileMenu"
-        class="absolute bg-white/95 dark:bg-slate-950/95 w-full max-w-[1190px] border-b border-slate-200 dark:border-slate-800 z-10 md:hidden backdrop-blur"
-      ></div>
-      <!-- // 모바?�에??메뉴 ?�역??보이?�록 ?�는 ?�역 -->
+  <!-- category 영역 -->
+  <section
+    class="category-aside hidden md:flex flex-col border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur rounded-[14px] fixed top-24 right-8 overflow-y-auto w-fit h-fit shadow-[0_25px_55px_-35px_rgba(15,23,42,0.5)] dark:shadow-[0_0_45px_rgba(46,111,242,0.25)]">
+    <header class="flex items-center">
+      <h2 class="aside-tit sr-only text-sm font-semibold ml-5">content</h2>
+      <button id="aside-button">
+        <span class="sr-only">Toggle category</span>
+      </button>
     </header>
+    <aside>
+      <div class="px-5 py-2 rounded-lg shadow-sm">
+        <img
+          src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fhakrimryu.github.io%2Fhakunote%2F&label=Counter&icon=arrow-up-circle-fill&color=%233d8bfd&message=&style=flat&tz=Asia%2FTokyo"
+          alt="visitor counter" />
+      </div>
+    </aside>
+  </section>
+  <!-- // category 영역 -->
 
-    <main class="container p-8 pb-4 w-full mx-auto max-w-[1190px] md:pt-[60px]">
-      <!-- 블로�?리스???�역 -->
-      <div
-        id="blog-posts"
-        class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20"
-      ></div>
-      <!-- // 블로�?리스???�역-->
+  <!-- utils -->
+  <script src="js/utils.js"></script>
+  <!-- convert ipynb to html -->
+  <script src="style/convertIpynbToHtml.js"></script>
 
-      <!-- contents ?�역 -->
-      <div
-        id="contents"
-        class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto"
-      ></div>
-      <!-- // contents ?�역-->
+  <!-- style -->
+  <script src="style/globalStyle.js"></script>
+  <script src="style/blogContentsStyle.js"></script>
 
-      <!-- pagination -->
-      <div id="pagination"></div>
-    </main>
+  <!-- mobile menu toggle -->
+  <script src="js/mobileMenuToggle.js"></script>
 
-    <!-- category ?�역 -->
-    <section
-      class="category-aside hidden md:flex flex-col border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur rounded-[14px] fixed top-24 right-8 overflow-y-auto w-fit h-fit shadow-[0_25px_55px_-35px_rgba(15,23,42,0.5)] dark:shadow-[0_0_45px_rgba(46,111,242,0.25)]"
-    >
-      <header class="flex items-center">
-        <h2 class="aside-tit sr-only text-sm font-semibold ml-5">content</h2>
-        <button id="aside-button">
-          <span class="sr-only">Toggle category</span>
-        </button>
-      </header>
-      <aside>
-        <div class="px-5 py-2 rounded-lg shadow-sm">
-          <img
-            src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fhakrimryu.github.io%2Fhakunote%2F&label=Counter&icon=arrow-up-circle-fill&color=%233d8bfd&message=&style=flat&tz=Asia%2FTokyo"
-            alt="visitor counter"
-          />
-        </div>
-      </aside>
-    </section>
-    <!-- // category ?�역 -->
+  <!-- theme toggle -->
+  <script src="js/themeToggle.js"></script>
 
-    <!-- utils -->
-    <script src="js/utils.js"></script>
-    <!-- convert ipynb to html -->
-    <script src="style/convertIpynbToHtml.js"></script>
+  <!-- render -->
+  <script src="config.js"></script>
+  <script src="js/URLparsing.js"></script>
+  <script src="js/initData.js"></script>
+  <script src="js/render.js"></script>
 
-    <!-- style -->
-    <script src="style/globalStyle.js"></script>
-    <script src="style/blogContentsStyle.js"></script>
+  <!-- registry -->
+  <script src="js/registry.js"></script>
+</body>
 
-    <!-- mobile menu toggle -->
-    <script src="js/mobileMenuToggle.js"></script>
-
-    <!-- theme toggle -->
-    <script src="js/themeToggle.js"></script>
-
-    <!-- render -->
-    <script src="config.js"></script>
-    <script src="js/URLparsing.js"></script>
-    <script src="js/initData.js"></script>
-    <script src="js/render.js"></script>
-
-    <!-- registry -->
-    <script src="js/registry.js"></script>
-  </body>
 </html>
