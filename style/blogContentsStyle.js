@@ -126,19 +126,74 @@ function styleMarkdown(kinds, text, title_info = null) {
 
     // category
     // category는 클릭하면 해당 카테고리의 블로그 리스트를 렌더링
-    const category = document.createElement("a");
-    category.classList.add(...postcategoryStyle.split(" "));
-    category.textContent = title_info.category;
+    const tagContainer = document.createElement("div");
+    tagContainer.classList.add(...postTagContainerStyle.split(" "));
 
-    category.onclick = (event) => {
-      event.preventDefault();
-      // console.log('click')
-      search(title_info.category);
-      const url = new URL(origin);
-      url.searchParams.set("search", title_info.category);
-      window.history.pushState({}, "", url);
-    };
-    title_section.appendChild(category);
+    const tagPath = Array.isArray(title_info.tags) ? title_info.tags : [];
+    const normalizeKey =
+      typeof window.normalizeCategoryKey === "function"
+        ? window.normalizeCategoryKey
+        : (parts) => {
+            const delimiter = window.CATEGORY_KEY_DELIMITER || "::";
+            return parts
+              .map((part) =>
+                typeof part === "string" ? part.trim().toLowerCase() : ""
+              )
+              .filter((part) => part.length > 0)
+              .join(delimiter);
+          };
+
+    if (tagPath.length > 0) {
+      const cumulative = [];
+      tagPath.forEach((segment) => {
+        const cleanSegment = typeof segment === "string" ? segment.trim() : "";
+        if (!cleanSegment) {
+          return;
+        }
+        cumulative.push(cleanSegment);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.classList.add(...postTagButtonStyle.split(" "));
+        const label = cumulative.join(" / ");
+        button.textContent = label;
+        button.title = `${label} 태그 글로 이동`;
+        const targetKey = normalizeKey(cumulative);
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          if (typeof search === "function") {
+            search(targetKey, "category");
+          }
+          const url = new URL(origin);
+          url.searchParams.set("category", targetKey);
+          window.history.pushState({}, "", url);
+        });
+        tagContainer.appendChild(button);
+      });
+    }
+
+    if (tagContainer.childElementCount === 0) {
+      const fallbackButton = document.createElement("button");
+      fallbackButton.type = "button";
+      fallbackButton.classList.add(...postTagButtonStyle.split(" "));
+      const fallbackLabel =
+        title_info.category || window.CATEGORY_UNTAGGED_LABEL || "분류 없음";
+      fallbackButton.textContent = fallbackLabel;
+      fallbackButton.title = `${fallbackLabel} 태그 글로 이동`;
+      const targetKey =
+        title_info.categoryKey || normalizeKey([fallbackLabel]);
+      fallbackButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (typeof search === "function") {
+          search(targetKey, "category");
+        }
+        const url = new URL(origin);
+        url.searchParams.set("category", targetKey);
+        window.history.pushState({}, "", url);
+      });
+      tagContainer.appendChild(fallbackButton);
+    }
+
+    title_section.appendChild(tagContainer);
 
     // title
     const title = document.createElement("h1");
@@ -327,19 +382,74 @@ function styleJupyter(kinds, text, title_info = null) {
 
     // category
     // category는 클릭하면 해당 카테고리의 블로그 리스트를 렌더링
-    const category = document.createElement("a");
-    category.classList.add(...postcategoryStyle.split(" "));
-    category.textContent = title_info.category;
+    const tagContainer = document.createElement("div");
+    tagContainer.classList.add(...postTagContainerStyle.split(" "));
 
-    category.onclick = (event) => {
-      event.preventDefault();
-      // console.log('click')
-      search(title_info.category);
-      const url = new URL(origin);
-      url.searchParams.set("search", title_info.category);
-      window.history.pushState({}, "", url);
-    };
-    title_section.appendChild(category);
+    const tagPath = Array.isArray(title_info.tags) ? title_info.tags : [];
+    const normalizeKey =
+      typeof window.normalizeCategoryKey === "function"
+        ? window.normalizeCategoryKey
+        : (parts) => {
+            const delimiter = window.CATEGORY_KEY_DELIMITER || "::";
+            return parts
+              .map((part) =>
+                typeof part === "string" ? part.trim().toLowerCase() : ""
+              )
+              .filter((part) => part.length > 0)
+              .join(delimiter);
+          };
+
+    if (tagPath.length > 0) {
+      const cumulative = [];
+      tagPath.forEach((segment) => {
+        const cleanSegment = typeof segment === "string" ? segment.trim() : "";
+        if (!cleanSegment) {
+          return;
+        }
+        cumulative.push(cleanSegment);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.classList.add(...postTagButtonStyle.split(" "));
+        const label = cumulative.join(" / ");
+        button.textContent = label;
+        button.title = `${label} 태그 글로 이동`;
+        const targetKey = normalizeKey(cumulative);
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          if (typeof search === "function") {
+            search(targetKey, "category");
+          }
+          const url = new URL(origin);
+          url.searchParams.set("category", targetKey);
+          window.history.pushState({}, "", url);
+        });
+        tagContainer.appendChild(button);
+      });
+    }
+
+    if (tagContainer.childElementCount === 0) {
+      const fallbackButton = document.createElement("button");
+      fallbackButton.type = "button";
+      fallbackButton.classList.add(...postTagButtonStyle.split(" "));
+      const fallbackLabel =
+        title_info.category || window.CATEGORY_UNTAGGED_LABEL || "분류 없음";
+      fallbackButton.textContent = fallbackLabel;
+      fallbackButton.title = `${fallbackLabel} 태그 글로 이동`;
+      const targetKey =
+        title_info.categoryKey || normalizeKey([fallbackLabel]);
+      fallbackButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (typeof search === "function") {
+          search(targetKey, "category");
+        }
+        const url = new URL(origin);
+        url.searchParams.set("category", targetKey);
+        window.history.pushState({}, "", url);
+      });
+      tagContainer.appendChild(fallbackButton);
+    }
+
+    title_section.appendChild(tagContainer);
 
     // title
     const title = document.createElement("h1");

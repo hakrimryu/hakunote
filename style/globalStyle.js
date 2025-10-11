@@ -36,6 +36,8 @@ const poststrongStyle = `text-lg font-semibold text-primary dark:text-cyan-300`;
 
 // blog hero (title, image, metadata)
 const postcategoryStyle = `bg-slate-200 text-primary text-xs md:text-sm font-semibold px-3 py-1.5 rounded-full tracking-[0.12em] uppercase transition duration-200 ease-in-out border border-primary/20 hover:bg-primary/10 hover:text-primary dark:bg-slate-900/80 dark:text-cyan-300 dark:border-cyan-500/40 dark:hover:bg-cyan-500/40 dark:hover:text-slate-950`;
+const postTagContainerStyle = `flex flex-wrap items-center gap-2 mb-4`;
+const postTagButtonStyle = `inline-flex items-center gap-2 rounded-full border border-primary/40 bg-white/80 px-3 py-1.5 text-xs md:text-sm font-semibold tracking-wide text-primary hover:bg-primary/10 hover:text-primary transition duration-200 ease-in-out dark:border-cyan-500/40 dark:bg-slate-900/80 dark:text-cyan-200 dark:hover:bg-cyan-500/30`;
 const posttitleStyle = `md:text-[40px] md:leading-[56px] text-[32px] leading-[40px] font-extrabold my-3 text-transparent bg-clip-text bg-gradient-to-r from-primary via-fuchsia-500 to-cyan-400 drop-shadow-[0_0_18px_rgba(46,111,242,0.28)]`;
 
 const postauthordateDivStyle = `md:mb-8 mb-6 h-fit text-slate-600 flex flex-wrap items-center gap-4 dark:text-slate-200`;

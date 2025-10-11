@@ -647,6 +647,7 @@ function renderBlogCategory() {
       const button = document.createElement("button");
       button.type = "button";
       button.classList.add(...categoryItemStyle.split(" "));
+      button.classList.add("flex", "items-center", "justify-between", "gap-3", "w-full");
       if (isActive) {
         button.classList.add(
           "border-primary",
@@ -963,11 +964,17 @@ async function initialize() {
     } else if (url.search.split("=")[0] === "?post") {
       document.getElementById("contents").style.display = "block";
       document.getElementById("blog-posts").style.display = "none";
-      postNameDecode = decodeURI(url.search.split("=")[1]).replaceAll("+", " ");
+      const currentUrl = new URL(window.location.href);
+      const rawPostParam = currentUrl.searchParams.get("post");
+      if (!rawPostParam) {
+        return;
+      }
+      postNameDecode = rawPostParam;
       // console.log(postNameDecode);
       postInfo = extractFileInfo(postNameDecode);
       try {
-        fetch(origin + "blog/" + postNameDecode)
+        const encodedPostPath = encodeURI(rawPostParam);
+        fetch(origin + "blog/" + encodedPostPath)
           .then((response) => response.text())
           .then((text) =>
             postInfo.fileType === "md"
