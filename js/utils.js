@@ -19,6 +19,69 @@ function extractFromUrl() {
   };
 }
 
+const CATEGORY_KEY_DELIMITER = "::";
+const CATEGORY_UNTAGGED_KEY = "__untagged__";
+const CATEGORY_UNTAGGED_LABEL = "\uBD84\uB958 \uC5C6\uC74C";
+
+function normalizeCategoryKey(pathParts) {
+  if (!Array.isArray(pathParts) || pathParts.length === 0) {
+    return CATEGORY_UNTAGGED_KEY;
+  }
+
+  return pathParts
+    .map((part) => part.trim().toLowerCase())
+    .filter((part) => part.length > 0)
+    .join(CATEGORY_KEY_DELIMITER);
+}
+
+function parseCategoryField(rawValue) {
+  if (!rawValue) {
+    return [];
+  }
+
+  const trimmed = rawValue.trim();
+  if (!trimmed) {
+    return [];
+  }
+
+  const normalizedHier = trimmed.replace(/[+~>]/g, "/");
+
+  if (
+    (normalizedHier.startsWith("[") && normalizedHier.endsWith("]")) ||
+    (normalizedHier.startsWith("{") && normalizedHier.endsWith("}"))
+  ) {
+    try {
+      const parsed = JSON.parse(normalizedHier);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .map((item) => (typeof item === "string" ? item.trim() : ""))
+          .filter((item) => item.length > 0);
+      }
+    } catch (error) {
+      // ignore
+    }
+  }
+
+  const separators = ["|", "/", ","];
+  for (let i = 0; i < separators.length; i += 1) {
+    const separator = separators[i];
+    if (normalizedHier.includes(separator)) {
+      return normalizedHier
+        .split(separator)
+        .map((part) => part.trim())
+        .filter((part) => part.length > 0);
+    }
+  }
+
+  return [normalizedHier];
+}
+
+window.CATEGORY_KEY_DELIMITER = CATEGORY_KEY_DELIMITER;
+window.CATEGORY_UNTAGGED_KEY = CATEGORY_UNTAGGED_KEY;
+window.CATEGORY_UNTAGGED_LABEL = CATEGORY_UNTAGGED_LABEL;
+window.normalizeCategoryKey = normalizeCategoryKey;
+window.parseCategoryField = parseCategoryField;
+
 function convertSourceToImage(source) {
   // convertIpynbToHtml.js에서 사용
   // Base64 이미지 데이터 식별을 위한 정규 표현식
@@ -51,10 +114,19 @@ function extractFileInfo(filename) {
   // console.log(`extractFileInfo: ${matches}`);
 
   if (matches) {
+    const tags = parseCategoryField(matches[3]);
+    const tagPath = tags.length > 0 ? tags : [];
+    const categoryKey = normalizeCategoryKey(tagPath);
+    const categoryLabel =
+      tagPath.length > 0 ? tagPath.join(" / ") : CATEGORY_UNTAGGED_LABEL;
+
     return {
       date: matches[1],
       title: matches[2],
-      category: matches[3],
+      category: categoryLabel,
+      tags: tagPath,
+      categoryKey,
+      categoryRaw: matches[3],
       thumbnail: matches[4]
         ? "img/" + matches[4]
         : `img/thumb${Math.floor(Math.random() * 10) + 1}.webp`,

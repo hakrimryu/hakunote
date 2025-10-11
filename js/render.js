@@ -1,47 +1,62 @@
+﻿const categoryKeyDelimiter = window.CATEGORY_KEY_DELIMITER || "::";
+const categoryUntaggedKey = window.CATEGORY_UNTAGGED_KEY || "__untagged__";
+
 function search(keyword, kinds) {
   /*
     트러블슈팅: 실제 데이터가 없을 경우 API 호출을 한 번 실행.
     1. 블로그 리스트 검색 버튼 클릭 시 블로그 리스트 렌더링
-    2. 블로그 리스트 카테고리 필터 클릭 시 블로그 리스트 렌더링
+    2. 카테고리 검색 버튼 클릭 시 카테고리 렌더링
     */
-  keyword = keyword ? keyword.toLowerCase().trim() : "";
+  const hasKeyword = typeof keyword === "string";
+  const trimmedKeyword = hasKeyword ? keyword.trim() : "";
+  const lowerKeyword = trimmedKeyword.toLowerCase();
 
   if (blogList.length === 0) {
     if (isInitData === false) {
       // 블로그 리스트 초기화
       initDataBlogList().then(() => {
-        search(keyword);
+        search(keyword, kinds);
       });
       return;
     }
   } else {
-    if (!keyword) {
+    if (!hasKeyword || (!trimmedKeyword && kinds !== "category")) {
       const searchInput = document.getElementById("search-input");
       const searchKeyword = searchInput.value.toLowerCase(); // 검색 키워드
       const searchResult = blogList.filter((post) => {
-        // 검색 키워드가 블로그 리스트 이름에 포함되어 있는지 확인
+        // 검색 키워드가 포함된 블로그 리스트 필터링
         if (post.name.toLowerCase().includes(searchKeyword)) {
           return post;
         }
       });
       renderBlogList(searchResult);
     } else {
-      // 카테고리 필터가 있을 경우
+      // 카테고리 검색 버튼 클릭 시 카테고리 렌더링
       if (kinds) {
-        const searchResult = blogList.filter((post) => {
-          if (kinds === "category") {
-            // post 정보 추출
+        if (kinds === "category") {
+          const targetKey = trimmedKeyword || categoryUntaggedKey;
+          const searchResult = blogList.filter((post) => {
             const postInfo = extractFileInfo(post.name);
-            if (postInfo.category.toLowerCase() === keyword) {
-              return post;
+            if (!postInfo) {
+              return false;
             }
-          }
-        });
-        renderBlogList(searchResult);
+            const postKey = postInfo.categoryKey || categoryUntaggedKey;
+            if (targetKey === categoryUntaggedKey) {
+              return postKey === categoryUntaggedKey;
+            }
+            if (postKey === targetKey) {
+              return true;
+            }
+            return postKey.startsWith(`${targetKey}${categoryKeyDelimiter}`);
+          });
+          renderBlogList(searchResult);
+        } else {
+          renderBlogList();
+        }
       } else {
-        const searchKeyword = keyword.toLowerCase();
+        const searchKeyword = lowerKeyword;
         const searchResult = blogList.filter((post) => {
-          // 검색 키워드가 블로그 리스트 이름에 포함되어 있는지 확인
+          // 검색 키워드가 포함된 블로그 리스트 필터링
           if (post.name.toLowerCase().includes(searchKeyword)) {
             return post;
           }
@@ -52,7 +67,6 @@ function search(keyword, kinds) {
     }
   }
 }
-
 const mobileFilterOpenButton = document.getElementById("mobile-filter-open");
 const mobileFilterCloseButton = document.getElementById("mobile-filter-close");
 const mobileOverlay = document.getElementById("mobile-category-overlay");
@@ -68,8 +82,8 @@ const activeFilterBanner = document.getElementById("active-filter-banner");
 const activeFilterText = document.getElementById("active-filter-text");
 const activeFilterClear = document.getElementById("active-filter-clear");
 
-let activeCategoryFilter = null;
-let categoryCounts = {};
+let activeCategoryKey = null;
+let categoryCounts = Object.create(null);
 
 function updateActiveFilterBanner(label, count) {
   if (!activeFilterBanner || !activeFilterText) {
@@ -91,7 +105,7 @@ function updateActiveFilterBanner(label, count) {
 
 if (activeFilterClear) {
   activeFilterClear.addEventListener("click", () => {
-    activeCategoryFilter = null;
+    activeCategoryKey = null;
     updateActiveFilterBanner(null);
     search("");
   });
@@ -100,21 +114,21 @@ if (activeFilterClear) {
 const originalSearch = search;
 
 function filteredSearch(keyword, kinds) {
-  const lowerKeyword = keyword ? keyword.toLowerCase().trim() : "";
+  const trimmedKeyword = typeof keyword === "string" ? keyword.trim() : "";
 
-  if (!lowerKeyword && !kinds) {
-    activeCategoryFilter = null;
+  if (!trimmedKeyword && !kinds) {
+    activeCategoryKey = null;
     updateActiveFilterBanner(null);
   }
 
   if (kinds === "category") {
-    const info = categoryCounts[lowerKeyword];
-    const displayLabel = info?.label ?? keyword;
+    const info = categoryCounts[trimmedKeyword];
+    const displayLabel = info?.fullLabel ?? info?.label ?? keyword;
     const displayCount = info?.count;
-    activeCategoryFilter = displayLabel;
+    activeCategoryKey = trimmedKeyword || null;
     updateActiveFilterBanner(displayLabel, displayCount);
-  } else if (!kinds && lowerKeyword) {
-    activeCategoryFilter = null;
+  } else if (!kinds && trimmedKeyword) {
+    activeCategoryKey = null;
     updateActiveFilterBanner(null);
   }
 
@@ -267,14 +281,22 @@ function createCardElement(fileInfo, index) {
 
   const category = document.createElement("span");
   category.classList.add(...bloglistCardCategoryStyle.split(" "));
-  category.textContent = fileInfo.category;
+  category.textContent =
+    fileInfo.category || window.CATEGORY_UNTAGGED_LABEL || "Uncategorized";
+  if (fileInfo.category) {
+    category.title = fileInfo.category;
+  }
+  if (fileInfo.categoryKey) {
+    category.dataset.categoryKey = fileInfo.categoryKey;
+  }
   cardBody.appendChild(category);
 
   // 카테고리 클릭 시 해당 카테고리로 검색
   category.onclick = (event) => {
     // 카테고리 클릭 시 해당 카테고리로 검색
     event.stopPropagation();
-    search(fileInfo.category, "category");
+    const targetKey = fileInfo.categoryKey || categoryUntaggedKey;
+    search(targetKey, "category");
   };
 
   const title = document.createElement("h2");
@@ -471,7 +493,10 @@ function renderOtherContents(menu) {
 }
 
 function renderBlogCategory() {
-  const map = {};
+  const root = {
+    children: new Map(),
+  };
+  let untaggedCount = 0;
 
   if (categoryContainer) {
     categoryContainer.classList.add(...categoryContainerStyle.split(" "));
@@ -482,21 +507,93 @@ function renderBlogCategory() {
     if (!info) {
       return;
     }
-    const key = info.category.toLowerCase();
-    if (!map[key]) {
-      map[key] = { label: info.category, count: 0 };
+
+    const rawTags = Array.isArray(info.tags) ? info.tags : [];
+    const cleanedTags = rawTags
+      .map((tag) => (typeof tag === "string" ? tag.trim() : ""))
+      .filter((tag) => tag.length > 0);
+
+    if (cleanedTags.length === 0) {
+      untaggedCount += 1;
+      return;
     }
-    map[key].count += 1;
+
+    let node = root;
+    const pathAccumulator = [];
+
+    cleanedTags.forEach((tag) => {
+      pathAccumulator.push(tag);
+      const key =
+        typeof window.normalizeCategoryKey === "function"
+          ? window.normalizeCategoryKey(pathAccumulator)
+          : pathAccumulator
+              .map((part) => part.trim().toLowerCase())
+              .join(categoryKeyDelimiter);
+
+      if (!node.children.has(key)) {
+        node.children.set(key, {
+          key,
+          label: tag,
+          path: pathAccumulator.slice(),
+          fullLabel: pathAccumulator.join(" / "),
+          count: 0,
+          children: new Map(),
+        });
+      }
+
+      const nextNode = node.children.get(key);
+      nextNode.count += 1;
+      node = nextNode;
+    });
   });
 
-  const categories = Object.values(map).sort((a, b) =>
-    a.label.localeCompare(b.label, "ko")
-  );
-  categories.unshift({ label: "All", count: blogList.length, isAll: true });
+  const flattenTree = (node, depth = 0) => {
+    const entries = [];
+    const nodes = Array.from(node.children.values()).sort((a, b) =>
+      a.label.localeCompare(b.label, "ko")
+    );
 
-  categoryCounts = {};
+    nodes.forEach((child) => {
+      entries.push({
+        key: child.key,
+        label: child.label,
+        fullLabel: child.fullLabel,
+        count: child.count,
+        depth,
+        path: child.path.slice(),
+      });
+      entries.push(...flattenTree(child, depth + 1));
+    });
+
+    return entries;
+  };
+
+  const categories = flattenTree(root, 0);
+
+  if (untaggedCount > 0) {
+    categories.push({
+      key: categoryUntaggedKey,
+      label: window.CATEGORY_UNTAGGED_LABEL || "Uncategorized",
+      fullLabel: window.CATEGORY_UNTAGGED_LABEL || "Uncategorized",
+      count: untaggedCount,
+      depth: 0,
+    });
+  }
+
+  categories.unshift({
+    key: null,
+    label: "All",
+    fullLabel: "All",
+    count: blogList.length,
+    isAll: true,
+    depth: 0,
+  });
+
+  categoryCounts = Object.create(null);
   categories.forEach((cat) => {
-    categoryCounts[cat.label.toLowerCase()] = cat;
+    if (!cat.isAll && cat.key) {
+      categoryCounts[cat.key] = cat;
+    }
   });
 
   if (desktopCategoryList) {
@@ -524,23 +621,27 @@ function renderBlogCategory() {
 
   const handleSelect = (category) => {
     if (category.isAll) {
-      activeCategoryFilter = null;
+      activeCategoryKey = null;
       updateActiveFilterBanner(null);
       closeMobile();
       search("");
       return;
     }
 
-    activeCategoryFilter = category.label;
-    updateActiveFilterBanner(category.label, category.count);
+    activeCategoryKey = category.key;
+    updateActiveFilterBanner(category.fullLabel, category.count);
     closeMobile();
-    search(category.label, "category");
+    search(category.key, "category");
   };
 
+  const baseDesktopPadding = 20;
+  const desktopIndent = 14;
+  const mobileIndent = 12;
+
   categories.forEach((category) => {
-    const isActive = activeCategoryFilter
-      ? activeCategoryFilter.toLowerCase() === category.label.toLowerCase()
-      : !activeCategoryFilter && category.isAll;
+    const isActive = category.isAll
+      ? !activeCategoryKey
+      : activeCategoryKey === category.key;
 
     if (desktopCategoryList) {
       const button = document.createElement("button");
@@ -556,8 +657,17 @@ function renderBlogCategory() {
           "dark:bg-cyan-500/10"
         );
       }
-      button.textContent = category.label;
+      if (!category.isAll && category.depth > 0) {
+        button.style.paddingLeft = `${baseDesktopPadding + category.depth * desktopIndent}px`;
+      }
       button.addEventListener("click", () => handleSelect(category));
+
+      const labelSpan = document.createElement("span");
+      labelSpan.className = "flex-1 text-left";
+      labelSpan.textContent = category.depth > 0
+        ? `↳ ${category.fullLabel}`
+        : category.fullLabel;
+      button.appendChild(labelSpan);
 
       const badge = document.createElement("span");
       badge.classList.add(...categoryItemCountStyle.split(" "));
@@ -582,7 +692,17 @@ function renderBlogCategory() {
           "dark:bg-cyan-500/10"
         );
       }
-      item.textContent = category.label;
+      if (!category.isAll && category.depth > 0) {
+        item.style.paddingLeft = `${16 + category.depth * mobileIndent}px`;
+      }
+
+      const labelSpan = document.createElement("span");
+      labelSpan.className = "flex-1 text-left";
+      labelSpan.textContent = category.depth > 0
+        ? `↳ ${category.fullLabel}`
+        : category.fullLabel;
+      item.appendChild(labelSpan);
+
       const badge = document.createElement("span");
       badge.className =
         "ml-4 inline-flex items-center justify-center rounded-full bg-slate-200/70 dark:bg-slate-800/80 px-2.5 py-0.5 text-xs font-semibold text-slate-600 dark:text-slate-200";
@@ -591,7 +711,6 @@ function renderBlogCategory() {
       item.addEventListener("click", () => handleSelect(category));
       mobileCategoryList.appendChild(item);
     }
-
   });
 
   if (mobileFilterOpenButton && !mobileFilterOpenButton.dataset.bound) {
@@ -656,7 +775,6 @@ function renderBlogCategory() {
     categoryToggleButton.dataset.bound = "true";
   }
 }
-
 function initPagination(totalPage) {
   const pagination = document.getElementById("pagination");
 

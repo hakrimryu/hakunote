@@ -254,5 +254,3 @@
 #page-next:disabled::after {
   background-color: var(--pager-icon-disabled);
 }
-
-*** End Patch
