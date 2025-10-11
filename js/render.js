@@ -67,6 +67,7 @@ async function renderMenu() {
     link.classList.add(`${menu.name}`);
 
     link.href = menu.download_url;
+    link.setAttribute("data-menu-name", menu.name);
     // 확장자를 제외하고 이름만 innerText로 사용
     const menuName = menu.name.split(".")[0];
     link.innerText = menuName;

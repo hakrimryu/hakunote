@@ -389,21 +389,23 @@ function styleJupyter(kinds, text, title_info = null) {
     contentsDiv.insertBefore(title_section, contentsDiv.firstChild);
   }
 
-  // 노트북 다운로드 버튼 추가
-  const downloadButton = document.createElement("button");
-  downloadButton.textContent = "Notebook Download";
-  downloadButton.classList.add(...notebookdownloadButtonStyle.split(" "));
-  downloadButton.addEventListener("click", function (event) {
-    event.stopPropagation(); // 이벤트 버블링을 막습니다.
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = title_info.title + ".ipynb";
-    a.click();
-    window.URL.revokeObjectURL(url);
-  });
-  contentsDiv.appendChild(downloadButton);
+  if (title_info && title_info.title) {
+    // 노트북 다운로드 버튼 추가
+    const downloadButton = document.createElement("button");
+    downloadButton.textContent = "Notebook Download";
+    downloadButton.classList.add(...notebookdownloadButtonStyle.split(" "));
+    downloadButton.addEventListener("click", function (event) {
+      event.stopPropagation(); // 이벤트 버블링을 막습니다.
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = title_info.title + ".ipynb";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+    contentsDiv.appendChild(downloadButton);
+  }
   contentsDiv.appendChild(tempDiv);
   hljs.highlightAll();
 }
