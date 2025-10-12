@@ -8,6 +8,71 @@ function styleMarkdown(kinds, text, title_info = null) {
   const html = marked.parse(text);
   tempDiv.innerHTML = html;
 
+  const copyDefaults = {
+    copyCodeLabel: "Copy code",
+    copySuccess: "Copied to clipboard",
+    copyFailure: "Failed to copy",
+  };
+
+  const getLocalizedCopyString = (key, fallback) => {
+    if (typeof window.t === "function") {
+      const value = window.t(key);
+      if (value && value !== key) return value;
+    }
+    return copyDefaults[key] || fallback || key;
+  };
+
+  const applyCopyButtonLocale = (button) => {
+    const label = getLocalizedCopyString("copyCodeLabel", copyDefaults.copyCodeLabel);
+    const srOnly = button.querySelector(".sr-only");
+    if (srOnly) {
+      srOnly.textContent = label;
+    }
+    button.setAttribute("aria-label", label);
+    button.dataset.copySuccessMessage = getLocalizedCopyString("copySuccess", copyDefaults.copySuccess);
+    button.dataset.copyFailureMessage = getLocalizedCopyString("copyFailure", copyDefaults.copyFailure);
+  };
+
+  const ensureCopyLocaleUpdater = () => {
+    if (window.__hakunoteCopyLocaleBound) return;
+    window.__hakunoteCopyLocaleBound = true;
+    document.addEventListener("app:languagechange", () => {
+      document
+        .querySelectorAll('button[data-copy-button="true"]')
+        .forEach((btn) => applyCopyButtonLocale(btn));
+    });
+  };
+
+  const createCopyButton = (codeText) => {
+    const copyButton = document.createElement("button");
+    copyButton.type = "button";
+    copyButton.classList.add(...notebookcopyButtonStyle.split(" "));
+    copyButton.setAttribute("id", "copy-button");
+    copyButton.setAttribute("data-copy-button", "true");
+
+    const srOnlySpan = document.createElement("span");
+    srOnlySpan.classList.add("sr-only");
+    copyButton.appendChild(srOnlySpan);
+
+    applyCopyButtonLocale(copyButton);
+    ensureCopyLocaleUpdater();
+
+    copyButton.addEventListener("click", async function (event) {
+      event.stopPropagation();
+      try {
+        await navigator.clipboard.writeText(codeText);
+        const successMsg = copyButton.dataset.copySuccessMessage || copyDefaults.copySuccess;
+        alert(successMsg);
+      } catch (err) {
+        console.error("Failed to copy text: ", err);
+        const failureMsg = copyButton.dataset.copyFailureMessage || copyDefaults.copyFailure;
+        alert(failureMsg);
+      }
+    });
+
+    return copyButton;
+  };
+
   tempDiv
     .querySelectorAll("h1")
     .forEach((h1) => h1.classList.add(...posth1Style.split(" ")));
@@ -57,25 +122,7 @@ function styleMarkdown(kinds, text, title_info = null) {
 
     const code = pre.textContent;
 
-    // 복사 버튼 생성
-    const copyButton = document.createElement("button");
-    copyButton.innerHTML = '<span class="sr-only">코드 복사하기</span>';
-    copyButton.classList.add(...notebookcopyButtonStyle.split(" "));
-    copyButton.setAttribute("id", "copy-button");
-
-    // 복사 버튼 클릭 이벤트, pre에 텍스트가 있는 경우에만 활성화
-    copyButton.addEventListener("click", async function (event) {
-      event.stopPropagation(); // 이벤트 버블링을 막습니다.
-      try {
-        await navigator.clipboard.writeText(code);
-        alert("복사되었습니다");
-      } catch (err) {
-        console.error("Failed to copy text: ", err);
-        alert("복사에 실패했습니다.");
-      }
-    });
-
-    // pre 요소 안에 버튼 삽입
+    const copyButton = createCopyButton(code);
     pre.appendChild(copyButton);
   });
   tempDiv
@@ -349,25 +396,7 @@ function styleJupyter(kinds, text, title_info = null) {
     pre.classList.add(...notebookpreStyle.split(" "));
     const code = pre.textContent;
 
-    // 복사 버튼 생성
-    const copyButton = document.createElement("button");
-    copyButton.innerHTML = '<span class="sr-only">코드 복사하기</span>';
-    copyButton.classList.add(...notebookcopyButtonStyle.split(" "));
-    copyButton.setAttribute("id", "copy-button");
-
-    // 복사 버튼 클릭 이벤트, pre에 텍스트가 있는 경우에만 활성화
-    copyButton.addEventListener("click", async function (event) {
-      event.stopPropagation(); // 이벤트 버블링을 막습니다.
-      try {
-        await navigator.clipboard.writeText(code);
-        alert("복사되었습니다");
-      } catch (err) {
-        console.error("Failed to copy text: ", err);
-        alert("복사에 실패했습니다.");
-      }
-    });
-
-    // pre 요소 안에 버튼 삽입
+    const copyButton = createCopyButton(code);
     pre.appendChild(copyButton);
   });
 

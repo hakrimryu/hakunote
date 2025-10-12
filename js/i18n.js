@@ -14,6 +14,9 @@
       openSearch: '검색 열기',
       openMenu: '메뉴 열기',
       contentTitle: '콘텐츠',
+      copyCodeLabel: '코드 복사하기',
+      copySuccess: '복사되었습니다',
+      copyFailure: '복사에 실패했습니다',
     },
     en: {
       searchPlaceholder: 'Keyword',
@@ -25,6 +28,9 @@
       openSearch: 'Open search',
       openMenu: 'Open menu',
       contentTitle: 'Contents',
+      copyCodeLabel: 'Copy code',
+      copySuccess: 'Copied to clipboard',
+      copyFailure: 'Failed to copy',
     },
     ja: {
       searchPlaceholder: 'キーワード',
@@ -36,6 +42,9 @@
       openSearch: '検索を開く',
       openMenu: 'メニューを開く',
       contentTitle: 'コンテンツ',
+      copyCodeLabel: 'コードをコピー',
+      copySuccess: 'コピーしました',
+      copyFailure: 'コピーに失敗しました',
     }
   }
 
@@ -73,4 +82,3 @@
   window.setLanguage = setLanguage
   window.getCurrentLang = getCurrentLang
 })();
-
