@@ -16,7 +16,7 @@ const users = [
     username: "RYU",
     company: "Ryukuza Studio (Solo Developer)",
     position: "Game Developer",
-    img: "img/user/profile-hati.png",
+    img: "img/user/profile-haku.png",
   },
 ];
 
