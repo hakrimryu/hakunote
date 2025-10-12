@@ -1,28 +1,26 @@
-﻿[
+[
     {
-        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md",
-        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md"
+        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md",
+        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md"
     },
     {
-        "name": "[20251012]_[Unity6でUGSを使ってみよう_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 紹介]_[]_[ugs-001]_[ja].md",
-        "download_url": "/blog/[20251012]_[Unity6でUGSを使ってみよう_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 紹介]_[]_[ugs-001]_[ja].md"
+        "name": "[20251012]_[Unity6でUGSを使ってみよう_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 紹介]_[]_[ugs-001]_[ja].md",
+        "download_url": "/blog/[20251012]_[Unity6でUGSを使ってみよう_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 紹介]_[]_[ugs-001]_[ja].md"
     },
     {
-        "name":  "[20251012]_[Try UGS in Unity 6_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service Introduction]_[]_[ugs-001]_[en].md",
-        "download_url":  "/blog/[20251012]_[Try UGS in Unity 6_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service Introduction]_[]_[ugs-001]_[en].md"
-    },
-
-
-    {
-        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[]_[ugs-002]_[ko].md",
-        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[]_[ugs-002]_[ko].md"
+        "name": "[20251012]_[Try UGS in Unity 6_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service Introduction]_[]_[ugs-001]_[en].md",
+        "download_url": "/blog/[20251012]_[Try UGS in Unity 6_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service Introduction]_[]_[ugs-001]_[en].md"
     },
     {
-        "name": "[20251012]_[Unity6でUGSを使ってみよう_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_ログインとログアウト]_[]_[ugs-002]_[ja].md",
-        "download_url": "/blog/[20251012]_[Unity6でUGSを使ってみよう_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_ログインとログアウト]_[]_[ugs-002]_[ja].md"
+        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[]_[ugs-002]_[ko].md",
+        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[]_[ugs-002]_[ko].md"
     },
     {
-        "name":  "[20251012]_[Try UGS in Unity 6_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md",
-        "download_url":  "/blog/[20251012]_[Try UGS in Unity 6_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md"
+        "name": "[20251012]_[Unity6でUGSを使ってみよう_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_ログインとログアウト]_[]_[ugs-002]_[ja].md",
+        "download_url": "/blog/[20251012]_[Unity6でUGSを使ってみよう_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_ログインとログアウト]_[]_[ugs-002]_[ja].md"
+    },
+    {
+        "name": "[20251012]_[Try UGS in Unity 6_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md",
+        "download_url": "/blog/[20251012]_[Try UGS in Unity 6_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md"
     }
 ]
