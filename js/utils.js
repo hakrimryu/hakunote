@@ -109,7 +109,7 @@ function extractFileInfo(filename) {
 
   // 정규 표현식을 사용하여 날짜, 제목, 카테고리, 썸네일, 저자 정보 추출
   const regex =
-    /^\[(\d{8})\]_\[(.*?)\]_\[(.*?)\]_\[(.*?)\]_\[(.*?)\]_\[(.*?)\].(md|ipynb)$/;
+    /^\[(\d{8})\]_\[(.*?)\]_\[(.*?)\]_\[(.*?)\]_\[(.*?)\]_\[(.*?)\](?:_\[([A-Za-z0-9_-]+)\])?(?:_\[(ko|en|ja)\])?\.(md|ipynb)$/;
   const matches = filename.match(regex);
   // console.log(`extractFileInfo: ${matches}`);
 
@@ -120,6 +120,18 @@ function extractFileInfo(filename) {
     const categoryLabel =
       tagPath.length > 0 ? tagPath.join(" / ") : CATEGORY_UNTAGGED_LABEL;
 
+    // sanitize thumbnail and author
+    const thumbRaw = matches[4];
+    const isImg = typeof thumbRaw === 'string' && /\.(png|jpe?g|webp|gif|svg)$/i.test(thumbRaw);
+    const safeThumbnail = isImg
+      ? "img/" + thumbRaw
+      : `img/thumb${Math.floor(Math.random() * 10) + 1}.webp`;
+
+    let authorIndex = matches[6] ? parseInt(matches[6]) : 0;
+    if (Number.isNaN(authorIndex)) {
+      authorIndex = 0;
+    }
+
     return {
       date: matches[1],
       title: matches[2],
@@ -127,13 +139,13 @@ function extractFileInfo(filename) {
       tags: tagPath,
       categoryKey,
       categoryRaw: matches[3],
-      thumbnail: matches[4]
-        ? "img/" + matches[4]
-        : `img/thumb${Math.floor(Math.random() * 10) + 1}.webp`,
+      thumbnail: safeThumbnail,
       // description: matches[5].length > 25 ? matches[5].substring(0, 25) + '...' : matches[5],
       description: matches[5],
-      author: matches[6] ? parseInt(matches[6]) : 0,
-      fileType: matches[7],
+      author: authorIndex,
+      id: matches[7] || null,
+      lang: matches[8] || null,
+      fileType: matches[9],
     };
   }
   return null;

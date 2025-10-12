@@ -1,38 +1,28 @@
-[
+﻿[
     {
-        "name": "[20240121]_[썸네일이 없는 테스트 파일]_[django]_[]_[이 파일은 테스트 파일입니다.]_[].md",
-        "download_url": "/blog/[20240121]_[썸네일이 없는 테스트 파일]_[django]_[]_[이 파일은 테스트 파일입니다.]_[].md"
+        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md",
+        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md"
     },
     {
-        "name": "[20240120]_[썸네일이 없는 테스트 파일]_[django]_[]_[이 파일은 테스트 파일입니다.]_[].md",
-        "download_url": "/blog/[20240120]_[썸네일이 없는 테스트 파일]_[django]_[]_[이 파일은 테스트 파일입니다.]_[].md"
+        "name": "[20251012]_[Unity6でUGSを使ってみよう_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 紹介]_[]_[ugs-001]_[ja].md",
+        "download_url": "/blog/[20251012]_[Unity6でUGSを使ってみよう_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 紹介]_[]_[ugs-001]_[ja].md"
     },
     {
-        "name": "[20240119]_[썸네일이 없는 테스트 파일]_[unity+test]_[]_[이 파일은 테스트 파일입니다.]_[].md",
-        "download_url": "/blog/[20240119]_[썸네일이 없는 테스트 파일]_[unity+test]_[]_[이 파일은 테스트 파일입니다.]_[].md"
+        "name":  "[20251012]_[Try UGS in Unity 6_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service Introduction]_[]_[ugs-001]_[en].md",
+        "download_url":  "/blog/[20251012]_[Try UGS in Unity 6_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service Introduction]_[]_[ugs-001]_[en].md"
+    },
+
+
+    {
+        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[]_[ugs-002]_[ko].md",
+        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[ugs-002]_[ko].md"
     },
     {
-        "name": "[20240128]_[파이썬_부트캠프]_[python]_[test_2.jpg]_[위니브 파이썬 부트캠프 강의자료입니다. 이 파일은 ipynb 파일입니다.]_[].ipynb",
-        "download_url": "/blog/[20240128]_[파이썬_부트캠프]_[python]_[test_2.jpg]_[위니브 파이썬 부트캠프 강의자료입니다. 이 파일은 ipynb 파일입니다.]_[].ipynb"
+        "name": "[20251012]_[Unity6でUGSを使ってみよう_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_ログインとログアウト]_[]_[ugs-002]_[ja].md",
+        "download_url": "/blog/[20251012]_[Unity6でUGSを使ってみよう_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_ログインとログアウト]_[]_[ugs-002]_[ja].md"
     },
     {
-        "name": "[20240505]_[블로그 글 양식]_[markdown]_[test_1.jpg]_[마크다운 양식입니다. 참고하여 블로그 글을 작성해주세요. 각 언어별 하이라이팅도 지원합니다.]_[].md",
-        "download_url": "/blog/[20240505]_[블로그 글 양식]_[markdown]_[test_1.jpg]_[마크다운 양식입니다. 참고하여 블로그 글을 작성해주세요. 각 언어별 하이라이팅도 지원합니다.]_[].md"
-    },
-    {
-        "name": "[date]_[title]_[category]_[thumnail]_[description]_[author].md",
-        "download_url": "/blog/[date]_[title]_[category]_[thumnail]_[description]_[author].md"
-    },
-    {
-        "name": "[20251012]_[테스트]_[unity+test]_[]_[이 파일은 테스트 파일입니다.]_[].md",
-        "download_url": "/blog/[20251012]_[테스트]_[unity+test]_[]_[이 파일은 테스트 파일입니다.]_[].md"
-    },
-    {
-        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[].md",
-        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_00]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[].md"
-    },
-    {
-        "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[].md",
-        "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 인증_로그인과 로그아웃]_[].md"
+        "name":  "[20251012]_[Try UGS in Unity 6_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md",
+        "download_url":  "/blog/[20251012]_[Try UGS in Unity 6_01]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md"
     }
 ]

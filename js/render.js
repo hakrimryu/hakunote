@@ -85,6 +85,44 @@ const activeFilterClear = document.getElementById("active-filter-clear");
 let activeCategoryKey = null;
 let categoryCounts = Object.create(null);
 
+// 언어별 대표 포스트만 선택하는 헬퍼(중복 변형 제거)
+function selectListByLang(arr) {
+  const lang = (window.getCurrentLang ? window.getCurrentLang() : 'ko') || 'ko';
+  const defaultLang = (typeof window.siteConfig === 'object' && siteConfig.defaultLanguage) ? siteConfig.defaultLanguage : 'ko';
+  const groups = new Map();
+  for (const post of arr) {
+    const info = extractFileInfo(post.name);
+    if (!info) continue;
+    // 그룹핑 키: id가 있으면 id 우선, 없으면 date+title+category
+    const baseKey = info.id ? `id:${info.id}` : `${info.date}|${info.title}|${info.categoryRaw}`;
+    const list = groups.get(baseKey) || [];
+    list.push({ post, info });
+    groups.set(baseKey, list);
+  }
+  const preferred = [];
+  for (const [, list] of groups) {
+    // Pick order: currentLang -> defaultLang(ko) -> no-lang -> others (prefer defaultLang, ko, ja, en)
+    let pick = list.find(x => x.info.lang === lang)
+      || list.find(x => x.info.lang === defaultLang)
+      || list.find(x => x.info.lang == null);
+
+    if (!pick) {
+      const ordered = [defaultLang, 'ko', 'ja', 'en']
+        .filter((l, idx, self) => self.indexOf(l) === idx && l !== lang);
+      for (const l of ordered) {
+        const found = list.find(x => x.info.lang === l);
+        if (found) { pick = found; break; }
+      }
+    }
+
+    if (!pick) pick = list[0];
+    preferred.push(pick.post);
+  }
+  preferred.sort((a, b) => b.name.localeCompare(a.name));
+  return preferred;
+}
+window.selectListByLang = selectListByLang;
+
 function updateActiveFilterBanner(label, count) {
   if (!activeFilterBanner || !activeFilterText) {
     return;
@@ -94,7 +132,7 @@ function updateActiveFilterBanner(label, count) {
     activeFilterBanner.classList.remove("hidden");
     const countText =
       typeof count === "number" && !Number.isNaN(count)
-        ? `${label} (${count} posts)`
+        ? `${label} (${count} ${window.t ? window.t('postsLabel') : 'posts'})`
         : label;
     activeFilterText.textContent = countText;
   } else {
@@ -317,15 +355,16 @@ function createCardElement(fileInfo, index) {
   authorDiv.classList.add(...bloglistCardAuthorDivStyle.split(" "));
   cardBody.appendChild(authorDiv);
 
+  const authorRecord = (Array.isArray(users) && users[fileInfo.author]) ? users[fileInfo.author] : users[0];
   const authorImg = document.createElement("img");
-  authorImg.src = users[fileInfo.author]["img"];
-  authorImg.alt = users[fileInfo.author]["username"];
+  authorImg.src = authorRecord["img"];
+  authorImg.alt = authorRecord["username"];
   authorImg.classList.add(...bloglistCardAuthorImgStyle.split(" "));
   authorDiv.appendChild(authorImg);
 
   const author = document.createElement("p");
   author.classList.add(...bloglistCardAuthorStyle.split(" "));
-  author.textContent = users[fileInfo.author]["username"];
+  author.textContent = authorRecord["username"];
   authorDiv.appendChild(author);
 
   const date = document.createElement("p");
@@ -351,13 +390,14 @@ function renderBlogList(searchResult = null, currentPage = 1) {
     document.getElementById("blog-posts").style.display = "grid";
     document.getElementById("blog-posts").innerHTML = "";
 
-    const totalPage = Math.ceil(searchResult.length / pageUnit);
+    const langList = (window.selectListByLang ? window.selectListByLang(searchResult) : searchResult);
+    const totalPage = Math.ceil(langList.length / pageUnit);
     initPagination(totalPage);
     renderPagination(totalPage, 1, searchResult);
 
     const startIndex = (currentPage - 1) * pageUnit;
     const endIndex = currentPage * pageUnit;
-    searchResult.slice(startIndex, endIndex).forEach((post, index) => {
+    langList.slice(startIndex, endIndex).forEach((post, index) => {
       const postInfo = extractFileInfo(post.name);
       if (postInfo) {
         const cardElement = createCardElement(postInfo, index);
@@ -395,7 +435,8 @@ function renderBlogList(searchResult = null, currentPage = 1) {
     document.getElementById("pagination").style.display = "flex";
     document.getElementById("blog-posts").innerHTML = "";
 
-    const totalPage = Math.ceil(blogList.length / pageUnit);
+    const langList = (window.selectListByLang ? window.selectListByLang(blogList) : blogList);
+    const totalPage = Math.ceil(langList.length / pageUnit);
     initPagination(totalPage);
     renderPagination(totalPage, 1);
 
@@ -403,7 +444,7 @@ function renderBlogList(searchResult = null, currentPage = 1) {
     const endIndex = currentPage * pageUnit;
 
     // blogList 목록 렌더링
-    blogList.slice(startIndex, endIndex).forEach((post, index) => {
+    langList.slice(startIndex, endIndex).forEach((post, index) => {
       const postInfo = extractFileInfo(post.name);
       if (postInfo) {
         // 카드 생성
@@ -502,7 +543,8 @@ function renderBlogCategory() {
     categoryContainer.classList.add(...categoryContainerStyle.split(" "));
   }
 
-  blogList.forEach((post) => {
+  const langList = (typeof window.selectListByLang === 'function') ? window.selectListByLang(blogList) : blogList;
+  langList.forEach((post) => {
     const info = extractFileInfo(post.name);
     if (!info) {
       return;
@@ -584,7 +626,7 @@ function renderBlogCategory() {
     key: null,
     label: "All",
     fullLabel: "All",
-    count: blogList.length,
+    count: langList.length,
     isAll: true,
     depth: 0,
   });
@@ -922,6 +964,44 @@ function renderPagination(totalPage, currentPage, targetList = null) {
     });
   }
 }
+
+// 언어 변경 시 목록/상세 다시 표시
+document.addEventListener('app:languagechange', () => {
+  const currentUrl = new URL(window.location.href);
+  const postParam = currentUrl.searchParams.get('post');
+  if (!postParam) {
+    try { renderBlogList(); } catch(_e) {}
+  } else {
+    const lang = (window.getCurrentLang ? window.getCurrentLang() : 'ko') || 'ko';
+    // base: first 6 bracket fields + optional id field, then optional lang
+    const m = postParam.match(/^(\[[^\]]+\]_\[[^\]]+\]_\[[^\]]+\]_\[[^\]]*\]_\[[^\]]*\]_\[[^\]]+\](?:_\[[^\]]+\])?)(?:_\[(?:ko|en|ja)\])?\.(md|ipynb)$/);
+    if (!m) return;
+    const base = m[1];
+    const ext = m[2];
+    const candidate = `${base}_[${lang}].${ext}`;
+    const encoded = encodeURI(candidate);
+    fetch(origin + "blog/" + encoded)
+      .then((res) => {
+        if (!res.ok) throw new Error('not found');
+        return res.text();
+      })
+      .then((text) => {
+        const targetInfo = extractFileInfo(candidate);
+        if (!targetInfo) return;
+        if (targetInfo.fileType === 'md') {
+          styleMarkdown('post', text, targetInfo);
+        } else {
+          styleJupyter('post', text, targetInfo);
+        }
+        const urlObj = new URL(origin);
+        urlObj.searchParams.set('post', candidate);
+        window.history.pushState({}, '', urlObj);
+      })
+      .catch(() => {
+        // 변형이 없으면 그대로 유지
+      });
+  }
+});
 
 async function initialize() {
   /*

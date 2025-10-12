@@ -87,6 +87,20 @@
         </button>
 
         <button
+          id="lang-toggle"
+          class="inline-flex items-center justify-center w-auto h-10 px-3 rounded-full border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 text-slate-700 dark:text-cyan-200 hover:border-primary hover:text-primary dark:hover:border-cyan-400 dark:hover:text-cyan-300 transition-colors duration-200 ml-2"
+          type="button"
+          aria-label="Change language"
+        >
+          <span class="sr-only">Change language</span>
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M2.05 12h19.9M12 2.05a15.5 15.5 0 0 1 0 19.9M12 2.05a15.5 15.5 0 0 0 0 19.9" />
+          </svg>
+          <span class="lang-toggle-label ml-2 text-xs font-semibold">KO</span>
+        </button>
+
+        <button
           id="mobile-filter-open"
           class="ml-3 md:hidden flex items-center justify-center w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 text-slate-600 dark:text-cyan-200 hover:border-primary hover:text-primary dark:hover:border-cyan-400 transition-colors duration-200"
           type="button"
@@ -306,6 +320,8 @@
     <script src="js/themeToggle.js"></script>
 
     <!-- render -->
+    <script src="js/i18n.js"></script>
+    <script src="js/lang-toggle.js"></script>
     <script src="config.js"></script>
     <script src="js/URLparsing.js"></script>
     <script src="js/initData.js"></script>
