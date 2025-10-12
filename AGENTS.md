@@ -1,5 +1,7 @@
 # Repository Guidelines
 
+When working, do not use powershell and do not work through meaningless py.
+
 ## Project Structure & Module Organization
 - Root entry: `index.html` drives the static site.
 - Client scripts in `js/`; keep modules small and focused.
