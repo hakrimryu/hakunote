@@ -1,68 +1,68 @@
-# 🧩 1. Unity Gaming Service 소개
+﻿# 🧩 1. Unity Gaming Service Introduction
 
-**UGS(Unity Gaming Services)** — 유니티가 제공하는 올인원 클라우드 백엔드 서비스입니다.  
-서버를 직접 만들지 않아도, 로그인 · 데이터 저장 · 리더보드 · 원격 설정 같은 기능을 바로 사용할 수 있습니다.
-
-&nbsp;
-
-## 🌐 UGS란?
-
-[🔗 Unity 공식 페이지](https://unity.com/solutions/gaming-services)
-
-**UGS(Unity Gaming Services)** 는 유니티에서 공식적으로 제공하는 **클라우드 기반 백엔드 플랫폼**입니다.  
-서버를 직접 구축하거나 유지보수하지 않아도, 아래와 같은 주요 기능들을 바로 프로젝트에 연결할 수 있습니다.
-
-| 기능                    | 설명                                |
-| :-------------------- | :-------------------------------- |
-| 🔑 **Authentication** | 플레이어 로그인 / 고유 식별 관리               |
-| ☁️ **Cloud Save**     | 유저 데이터 클라우드 저장 및 동기화              |
-| 🏆 **Leaderboards**   | 점수 등록, 랭킹 표시, 시즌별 운영              |
-| ⚙️ **Remote Config**  | 빌드 없이 파라미터 실시간 변경                 |
-| 💻 **Cloud Code**     | 서버에서 실행되는 짧은 로직 (예: 점수 검증, 보상 계산) |
+**UGS (Unity Gaming Services)** is Unity’s cloud-based backend service.  
+Without building or maintaining your own servers, you can use features like sign‑in, cloud save, leaderboards, and remote configuration right away.
 
 &nbsp;
 
-## 🎮 왜 싱글플레이에도 필요할까?
+## What is UGS?
 
-UGS는 멀티플레이 게임만을 위한 서비스가 아닙니다.
-싱글플레이 게임에서도 다음과 같은 이유로 매우 유용합니다.
+[Unity official page](https://unity.com/solutions/gaming-services)
 
-* 📱 **진행 데이터 동기화** — 기기를 바꿔도 이어서 플레이 가능
-* 🧩 **운영 편의성** — 빌드 없이 이벤트나 보상 밸런스 수정 가능
-* 🛡️ **공정성 확보** — 서버 검증으로 치트 방지
-* 🚀 **확장성** — 유저 수가 늘어나도 인프라 걱정 없음
+**UGS (Unity Gaming Services)** is an **official cloud‑based backend platform** provided by Unity.  
+You can integrate major features into your project quickly, without self‑hosting or server maintenance.
 
-&nbsp;
-
-> 한마디로, “**서버 없이 서버 같은 경험**”을 만들 수 있다는 것이 핵심입니다.
-
-&nbsp;
-
-## 🧱 이번 프로젝트에서 사용할 기능
-
-이 시리즈에서는 다음 네 가지 서비스를 중심으로 다룰 예정입니다.
-
-1. 🔑 **Authentication** – 플레이어 식별과 로그인 (익명 로그인 포함)
-2. ☁️ **Cloud Save** – 클라우드 기반의 데이터 저장/불러오기
-3. 🏆 **Leaderboards** – 점수 기록 및 순위 표시
-4. ⚙️ **Remote Config** – 파라미터 실시간 조정 및 A/B 테스트
-
-그리고 마지막에는 🎯 **Cloud Code**를 이용해 간단한 서버 로직도 함께 구현할 예정입니다.
+| Feature                 | Description                                        |
+| :---------------------- | :------------------------------------------------- |
+| 🔐 **Authentication**   | Player sign‑in and unique ID management            |
+| ☁️ **Cloud Save**       | Save and load progress data in the cloud           |
+| 🏆 **Leaderboards**     | Score submission, ranking display, season support  |
+| ⚙️ **Remote Config**    | Ship parameter changes without a new build         |
+| 🧠 **Cloud Code**       | Short server‑side logic (e.g., cheat checks, rewards)
 
 &nbsp;
 
-## 💰 비용 / 요금제
+## Why even for single‑player?
 
-* 대부분의 서비스는 **무료 할당량(Free Tier)** 을 제공합니다.  
-  * 개발 및 테스트 단계에서는 비용 없이 충분히 사용 가능합니다.
-* 정식 출시 전에는 **일일 호출 수(DAU)** 기준으로 과금 구조를 꼭 확인해 두는 것이 좋습니다.
+UGS isn’t just for multiplayer.  
+It’s highly useful for single‑player games as well, for example:
+
+- 🔄 **Sync progress**: Continue playing across devices
+- 🛠 **Live operations**: Adjust events and reward balance via config
+- 🎯 **Fairness**: Server validation helps prevent cheating
+- 📈 **Scalability**: Handle traffic spikes with the cloud
 
 &nbsp;
 
-## ✨ 정리하며
+> The goal is to deliver a “server‑like experience” **without** running your own servers.
 
-> UGS는 Unity 프로젝트에서 **서버를 직접 운영하지 않고도** 필수적인 온라인 기능을 빠르게 붙일 수 있는 **통합 백엔드 솔루션**입니다.
+&nbsp;
 
-이 글에서는 간단히 개념과 활용 방향을 살펴봤으며,
-다음 글에서는 각 기능별로 실제 설정 방법과 코드 예시를 하나씩 정리할 예정입니다.  
-또한 본 포스팅의 가장 중요한 주제는 UGS이기 때문에 스크립트는 최소한의 모듈화만 하고 최대한 단순하게 작업을 하겠습니다.
+## Features used in this project
+
+In this series we’ll focus on the following four services:
+
+1. 🔐 **Authentication** — Player identity and sign‑in (using anonymous login)
+2. ☁️ **Cloud Save** — Save and load to/from the cloud
+3. 🏆 **Leaderboards** — Submit scores and display rankings
+4. ⚙️ **Remote Config** — Distribute/adjust parameters (including A/B tests)
+
+At the end, we’ll also add a small server routine with **Cloud Code**.
+
+&nbsp;
+
+## Pricing / Plans
+
+- Many features include a **Free Tier**.  
+  It’s usually enough during development or test phases.
+- Before release, confirm the pricing model based on **DAU** (daily active users) or your expected usage.
+
+&nbsp;
+
+## Wrap‑up
+
+> UGS is an **integrated suite** that lets Unity projects add key backend features quickly **without** running your own servers.
+
+In this article we organized the overview and use cases.  
+Next, we’ll implement setup steps and code examples for each service.  
+We’ll aim to get things running with the **fewest scripts** and the **shortest path** possible.
