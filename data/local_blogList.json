@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "name": "[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md",
         "download_url": "/blog/[20251012]_[Unity6 에서 UGS를 사용해 보자_01]_[Unity+UGS]_[thumb_0001.webp]_[Unity Gaming Service 소개]_[]_[ugs-001]_[ko].md"
@@ -22,5 +22,17 @@
     {
         "name": "[20251012]_[Try UGS in Unity 6_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md",
         "download_url": "/blog/[20251012]_[Try UGS in Unity 6_02]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Sign-in and Sign-out]_[]_[ugs-002]_[en].md"
+    },
+    {
+        "name": "[20251016]_[Unity6 에서 UGS를 사용해 보자_03]_[Unity+UGS]_[thumb_0001.webp]_[[Anonymous 인증_플레이어 닉네임 및 어카운트 삭제]_[]_[ugs-003]_[ko].md",
+        "download_url": "/blog/[20251016]_[Unity6 에서 UGS를 사용해 보자_03]_[Unity+UGS]_[thumb_0001.webp]_[[Anonymous 인증_플레이어 닉네임 및 어카운트 삭제]_[]_[ugs-003]_[ko].md"
+    },
+    {
+        "name": "[20251016]_[Unity6でUGSを使ってみよう_03]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_プレイヤー名とアカウント削除]_[]_[ugs-003]_[ja].md",
+        "download_url": "/blog/[20251016]_[Unity6でUGSを使ってみよう_03]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous 認証_プレイヤー名とアカウント削除]_[]_[ugs-003]_[ja].md"
+    },
+    {
+        "name": "[20251016]_[Try UGS in Unity 6_03]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Player Nickname and Account Deletion]_[]_[ugs-003]_[en].md",
+        "download_url": "/blog/[20251016]_[Try UGS in Unity 6_03]_[Unity+UGS]_[thumb_0001.webp]_[Anonymous Authentication_Player Nickname and Account Deletion]_[]_[ugs-003]_[en].md"
     }
 ]
